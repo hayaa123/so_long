@@ -1,33 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.h                                          :+:      :+:    :+:   */
+/*   check_valid_path.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: haya <haya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/11 20:26:07 by haya              #+#    #+#             */
-/*   Updated: 2025/12/12 16:42:19 by haya             ###   ########.fr       */
+/*   Created: 2025/12/12 18:34:14 by haya              #+#    #+#             */
+/*   Updated: 2025/12/12 18:34:15 by haya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SO_LONG_H
-# define SO_LONG_H
-
-# include "libft.h"
-# include "unistd.h"
-# include "stdio.h"
-#include <errno.h>
-#include <string.h>
-# include "fcntl.h"
-
-struct s_map {
-    int width;
-    int height;
-    char **map;
-} t_map;
-
-
-char *read_as_line(char *filename);
-int validate_map(char *content);
-
-#endif

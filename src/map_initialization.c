@@ -6,25 +6,45 @@
 /*   By: haya <haya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 20:56:49 by haya              #+#    #+#             */
-/*   Updated: 2025/12/11 21:12:05 by haya             ###   ########.fr       */
+/*   Updated: 2025/12/12 14:45:10 by haya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-// char **initiate_map(char *filename) 
-// {
-//     char **map;
-//     char *buff;
-//     int fd;
-//     int bytes_read;
+char *safe_strjoin(char *s1,char *s2)
+{
+    char *new;
+    new = ft_strjoin(s1,s2);
+    if (s1)  
+        free(s1);
+    return (new);
+}
+
+char *read_as_line(char *filename) 
+{
+    char *buff;
+    char *line;
+    int fd;
+    int bytes_read;
    
-//     fd = open(filename, O_RDONLY);
-    
-//     while(1)
-//     {
-//         bytes_read = read(fd,buff,sizeof(char));
-//         if( bytes_read == 0 | bytes_read == -1)
-//             break;
-//     }           
-// }
+    fd = open(filename, O_RDONLY);
+    if (fd == -1)
+        return (NULL);
+    buff = malloc(sizeof(char) + 1);
+    if (!buff)
+        return (NULL);
+    buff[1] = '\0';
+    line = NULL;
+    while(1)
+    {
+        bytes_read = read(fd,buff, sizeof(char));
+        line = safe_strjoin(line, buff);
+        if( bytes_read == 0 || bytes_read == -1)
+            break;
+    }
+    line = safe_strjoin(line, '\0');
+    close(fd);
+    free(buff);
+    return (line);
+}
