@@ -1,116 +1,104 @@
 #include "so_long.h"
 
-int valid_char(char *content)
+
+static int is_valid_char(char **grid,int *count,int i, int j)
+{
+    if (grid[i][j] == 'P')
+        count[0]++;
+    else if(grid[i][j] == 'E')
+        count[1]++;
+    else if(grid[i][j] == 'C')
+        count[2]++;
+    else if (grid[i][j] != '\n' && grid[i][j] != '1' && grid[i][j] != '0')
+        return (0);
+    return (1);
+}
+static int valid_char(char **grid)
 {
     int i;
-    int exit;
-    int start;
-    int collect;
-
+    int j;
+    int count[3];
+    
     i = 0;
-    exit =0;
-    start =0;
-    collect =0;
-    while (content[i])
+    count[0] = 0;
+    count[1] = 0;
+    count[2] = 0;
+    while(grid[i])
     {
-        if(content[i] == 'P')
-            start++;
-        else if(content[i] == 'E')
-            exit++;
-        else if(content[i] == 'C')
-            collect++;
-        else if (content[i] != '\n' && content[i] != '1' && content[i] != '0')
-            return (0);
+        j = 0;
+        while(grid[i][j])
+        {
+            if (!is_valid_char(grid, count, i, j))
+                return (0);
+            j++;
+        }
         i++;
     }
-    if(start != 1 || exit != 1 || collect < 1)
+    if(count[0] != 1 || count[1] != 1 || count[2] < 1)
         return (0);
     return (1);
 }
 
-int check_rect(char *content)
+
+static int check_rect(char **grid)
 {
     int i;
-    int line;
     int p_count;
     int c_count;
 
     i = 0;
-    line = 0;
     p_count = 0;
     c_count = 0;
-    while (content[i])
+    while(grid[i])
     {
-        if(content[i] == '\n' || content[i] == '\0')
+        if (i == 0)
         {
-            if(line != 0 && p_count != c_count)
-                return (0);
-            p_count = c_count;
-            c_count = 0;
-            line++;
+            p_count = ft_strlen(grid[i]);
             i++;
             continue;
         }
-        c_count++;
+        c_count = ft_strlen(grid[i]);
+        if (c_count != p_count)
+            return (0);
+        p_count = c_count;
+        c_count = 0;
         i++;
     }
     return (1);
 }
 
-int count_lines(char *content)
+static int check_wall(char **grid, int height, int width)
 {
     int i;
-    int line_count;
-
+    int j;
+    
     i = 0;
-    line_count = 0;
-    while(content[i])
+    while(grid[i])
     {
-         if(content[i + 1] == '\n' || content[i + 1] == '\0')
-         {
-            line_count++;
-         }
-        i++;
-    }
-    return (line_count);
-}
-
-int check_wall(char *content)
-{
-    int i;
-    int line;
-    int line_count;
-
-    i = 0;
-    line = 1;
-    line_count = count_lines(content);
-    while (content[i])
-    {
-        if(content[i + 1] == '\n' || content[i + 1] == '\0')
+        j = 0;
+        while(grid[i][j])
         {
-            if(content[i] != '1')
+            if((i == 0 || i == (height - 1)) && grid[i][j] != '1')
                 return (0);
-            if(content[i + 1] == '\n' && content[i + 2] != '1')
-                    return (0);
-            line++;
-            i = i + 2;
-            continue;
+            if ((j == 0 || j == (width - 1)) &&  grid[i][j] != '1')
+                return (0);
+            j++;
         }
-        if (line == 1 || line == line_count)
-            if (content[i] != '1')
-                return (0);
         i++;
     }
     return (1);
 }
 
-int validate_map(char *content)
+int validate_map(t_map *map)
 {
-    if(valid_char(content) == 0)
+    char **grid;
+
+    grid = map->map;
+    if(valid_char(grid) == 0)
         return (0);
-    if(check_rect(content) == 0)
+    if(check_rect(grid) == 0)
         return (0);
-    if(check_wall(content) == 0)
+    if(check_wall(grid, map-> height, map->width) == 0)
         return (0);
     return (1);
 }

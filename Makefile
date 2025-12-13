@@ -8,7 +8,7 @@ OBJ_DIR=obj
 LIB_DIR=lib
 BIN_DIR=bin
 LIB =$(LIB_DIR)/so_long.a
-SRC = map_validation.c main.c map_initialization.c
+SRC = map_validation.c main.c map_initialization.c read_as_line.c check_valid_path.c
 LIBFT_SRC = \
 ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c ft_strlen.c \
 ft_memset.c ft_bzero.c ft_memcpy.c ft_memmove.c ft_toupper.c ft_tolower.c \
