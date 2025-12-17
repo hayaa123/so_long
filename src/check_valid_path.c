@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_valid_path.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haya <haya@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hal-lawa <hal-lawa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 18:34:14 by haya              #+#    #+#             */
-/*   Updated: 2025/12/13 17:54:08 by haya             ###   ########.fr       */
+/*   Updated: 2025/12/17 14:57:35 by hal-lawa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,50 @@ void helper_print(char **grid)
     }
 }
 
-int validate_path(t_map map)
+void free_grid(char **map)
+{
+    int i;
+    
+    i = 0;
+    while (map[i])
+    {
+        free(map[i]);
+        i++;
+    }
+    free(map);
+}
+
+char **cpy_map(t_map *map)
+{
+    int i;
+    char **cpy;
+
+    if (!map)
+        return (NULL);
+    if (!map->map)
+        return (NULL);
+    cpy = malloc(sizeof(char *) * (map->height + 1));
+    i = 0;
+    if (!cpy)
+        return (NULL);
+    while(map->map[i])
+    {
+        cpy[i] = ft_strdup(map->map[i]);
+        if(!cpy[i])
+            free_grid(cpy);
+        i++;
+    }
+    cpy[i] = NULL;
+    return (cpy);
+}
+
+int validate_path(t_map *map)
 {
     char **grid;
     char visited;
     int *start_coord;
     
-    grid = map.map;
+    grid = cpy_map(map);
     visited = 'V';
     start_coord = get_start_coord(grid);
     dfs(grid, start_coord[0],start_coord[1], visited);
@@ -97,5 +134,6 @@ int validate_path(t_map map)
         return (0);
     }
     free(start_coord);
+    free_grid(grid);
     return (1);
 }

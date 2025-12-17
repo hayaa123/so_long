@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_as_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haya <haya@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hal-lawa <hal-lawa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 14:43:22 by haya              #+#    #+#             */
-/*   Updated: 2025/12/13 17:13:18 by haya             ###   ########.fr       */
+/*   Updated: 2025/12/15 10:20:54 by hal-lawa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ char *read_as_line(char *filename)
             break;
         line = safe_strjoin(line, buff);
     }
-    line = safe_strjoin(line, '\0');
     close(fd);
     free(buff);
     return (line);
