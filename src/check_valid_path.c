@@ -6,134 +6,86 @@
 /*   By: hal-lawa <hal-lawa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 18:34:14 by haya              #+#    #+#             */
-/*   Updated: 2025/12/17 14:57:35 by hal-lawa         ###   ########.fr       */
+/*   Updated: 2025/12/18 13:15:02 by hal-lawa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-static int *get_start_coord(char **grid)
+static int	*get_start_coord(char **grid)
 {
-    int i;
-    int j;
-    int *start_coord;
-    
-    i = 0;
-    start_coord = malloc(sizeof(int) * 2);
-    while(grid[i])
-    {
-        j = 0;
-        while(grid[i][j])
-        {
-            if (grid[i][j] == 'P')
-            {
-                start_coord[0] = i;
-                start_coord[1] = j;
-                break;
-            }
-            j++;
-        }
-        i++;
-    }
-    return start_coord;
+	int	i;
+	int	j;
+	int	*start_coord;
+
+	i = 0;
+	start_coord = malloc(sizeof(int) * 2);
+	while (grid[i])
+	{
+		j = 0;
+		while (grid[i][j])
+		{
+			if (grid[i][j] == 'P')
+			{
+				start_coord[0] = i;
+				start_coord[1] = j;
+				break ;
+			}
+			j++;
+		}
+		i++;
+	}
+	return (start_coord);
 }
 
-static void dfs(char **grid, int row, int col, char visited)
+static void	dfs(char **grid, int row, int col, char visited)
 {
-    if (grid[row][col] == '1' || grid[row][col] == visited)
-        return;
-    grid[row][col] = visited;
-    dfs(grid,row + 1, col, visited);
-    dfs(grid,row, col + 1, visited);
-    dfs(grid,row - 1, col, visited);
-    dfs(grid,row , col -1, visited);
+	if (grid[row][col] == '1' || grid[row][col] == visited)
+		return ;
+	grid[row][col] = visited;
+	dfs(grid, row + 1, col, visited);
+	dfs(grid, row, col + 1, visited);
+	dfs(grid, row - 1, col, visited);
+	dfs(grid, row, col - 1, visited);
 }
 
-static int check_existed(char **grid)
+static int	check_existed(char **grid)
 {
-    int i;
-    int j;
-    
-    i = 0;
-    while(grid[i])
-    {
-        j = 0;
-        while(grid[i][j])
-        {
-            if (grid[i][j] == 'P' || grid[i][j] == 'E' || grid[i][j] == 'C')
-                return (0);
-            j++;
-        }
-        i++;
-    }
-    return (1);
+	int	i;
+	int	j;
+
+	i = 0;
+	while (grid[i])
+	{
+		j = 0;
+		while (grid[i][j])
+		{
+			if (grid[i][j] == 'P' || grid[i][j] == 'E' || grid[i][j] == 'C')
+				return (0);
+			j++;
+		}
+		i++;
+	}
+	return (1);
 }
 
-void helper_print(char **grid)
+int	validate_path(t_map *map)
 {
-    int i;
-    
-    i = 0;
-    while(grid[i])
-    {
-        ft_printf("%s\n", grid[i]);
-        i++;
-    }
-}
+	char	**grid;
+	char	visited;
+	int		*start_coord;
 
-void free_grid(char **map)
-{
-    int i;
-    
-    i = 0;
-    while (map[i])
-    {
-        free(map[i]);
-        i++;
-    }
-    free(map);
-}
-
-char **cpy_map(t_map *map)
-{
-    int i;
-    char **cpy;
-
-    if (!map)
-        return (NULL);
-    if (!map->map)
-        return (NULL);
-    cpy = malloc(sizeof(char *) * (map->height + 1));
-    i = 0;
-    if (!cpy)
-        return (NULL);
-    while(map->map[i])
-    {
-        cpy[i] = ft_strdup(map->map[i]);
-        if(!cpy[i])
-            free_grid(cpy);
-        i++;
-    }
-    cpy[i] = NULL;
-    return (cpy);
-}
-
-int validate_path(t_map *map)
-{
-    char **grid;
-    char visited;
-    int *start_coord;
-    
-    grid = cpy_map(map);
-    visited = 'V';
-    start_coord = get_start_coord(grid);
-    dfs(grid, start_coord[0],start_coord[1], visited);
-    if (check_existed(grid) == 0)
-    {
-        free(start_coord);
-        return (0);
-    }
-    free(start_coord);
-    free_grid(grid);
-    return (1);
+	grid = cpy_map(map);
+	visited = 'V';
+	start_coord = get_start_coord(grid);
+	dfs(grid, start_coord[0], start_coord[1], visited);
+	if (check_existed(grid) == 0)
+	{
+		free(start_coord);
+		free_grid(grid);
+		return (0);
+	}
+	free(start_coord);
+	free_grid(grid);
+	return (1);
 }
