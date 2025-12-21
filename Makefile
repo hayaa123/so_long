@@ -6,8 +6,8 @@ DEBUGFLAG= -g
 LIBFT_DIR= ./libft
 LIBFT= ./libft/libft.a
 
-MLX_DIR= ./mlx_linux
-MLX=./mlx_linux/libmlx_Linux.a
+MLX_DIR= ./minilibx-linux
+MLX=./minilibx-linux/libmlx_Linux.a
 
 SRC_DIR=src
 OBJ_DIR=obj
@@ -35,10 +35,10 @@ OBJ         = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 all: $(NAME)
 
 debug: $(LIB) $(LIBFT) $(MLX)
-	$(CC) $(CFLAGS) $(DEBUGFLAG) -L. $(LIB) -I./libft -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
+	$(CC) $(CFLAGS) $(DEBUGFLAG) -L. $(LIB) -I./libft -Lminilibx-linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
 
 $(NAME): $(LIB) $(LIBFT) $(MLX)
-	$(CC) $(CFLAGS) -L. $(LIB) -I./libft -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
+	$(CC) $(CFLAGS) -L. $(LIB) -I./libft -Lminilibx-linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	mkdir -p $(OBJ_DIR)
