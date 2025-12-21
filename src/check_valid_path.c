@@ -6,7 +6,7 @@
 /*   By: hal-lawa <hal-lawa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 18:34:14 by haya              #+#    #+#             */
-/*   Updated: 2025/12/21 10:02:06 by hal-lawa         ###   ########.fr       */
+/*   Updated: 2025/12/21 13:04:11 by hal-lawa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ static int	*get_start_coord(char **grid)
 
 	i = 0;
 	start_coord = malloc(sizeof(int) * 2);
+	if (!start_coord)
+		return (NULL);
 	while (grid[i])
 	{
 		j = 0;
@@ -80,6 +82,11 @@ int	validate_path(t_map *map)
 		return (0);
 	visited = 'V';
 	start_coord = get_start_coord(grid);
+	if (!start_coord)
+	{
+		free_grid(grid);
+		return (0);
+	}
 	dfs(grid, start_coord[0], start_coord[1], visited);
 	if (check_existed(grid) == 0)
 	{
