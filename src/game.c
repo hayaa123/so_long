@@ -6,7 +6,7 @@
 /*   By: hal-lawa <hal-lawa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 14:28:34 by hal-lawa          #+#    #+#             */
-/*   Updated: 2025/12/18 12:10:32 by hal-lawa         ###   ########.fr       */
+/*   Updated: 2025/12/21 10:44:35 by hal-lawa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,17 +74,22 @@ void	assign_images(void *mlx, t_map *map)
 			&map->exit->closed->h);
 }
 
-void	start_game(t_map *map)
+int	start_game(t_map *map)
 {
 	t_vars	vars;
 
 	vars.mlx = mlx_init();
+	if (!vars.mlx)
+		return (0);
 	assign_images(vars.mlx, map);
 	vars.map = map;
 	vars.win = mlx_new_window(vars.mlx, IMAGE_WIDTH * map->width, IMAGE_HEIGHT
 			* map->height, "So Long - 42");
+	if (check_valid_game_elements(&vars) == 0)
+		exit_game(&vars);
 	render_map(map, vars.mlx, vars.win);
 	mlx_key_hook(vars.win, key_hook, &vars);
 	mlx_hook(vars.win, 17, 0, exit_game, &vars);
 	mlx_loop(vars.mlx);
+	return (1);
 }

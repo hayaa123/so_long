@@ -6,7 +6,7 @@
 /*   By: hal-lawa <hal-lawa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 12:15:22 by hal-lawa          #+#    #+#             */
-/*   Updated: 2025/12/18 13:16:05 by hal-lawa         ###   ########.fr       */
+/*   Updated: 2025/12/21 09:56:02 by hal-lawa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,30 @@ int	calc_width(char *content)
 		i++;
 	}
 	return (i);
+}
+
+int	check_mallocked(t_map *map)
+{
+	if (!map->exit || !map->player)
+		return (0);
+	if (!map->collectables)
+		return (0);
+	if (!map->floor || !map->wall)
+		return (0);
+	if (!map->player_door)
+		return (0);
+	return (1);
+}
+
+t_img	*empty_img(void)
+{
+	t_img	*img;
+
+	img = malloc(sizeof(t_img));
+	if (!img)
+		return (NULL);
+	img->data = NULL;
+	img->h = 0;
+	img->w = 0;
+	return (img);
 }

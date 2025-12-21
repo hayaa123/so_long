@@ -6,7 +6,7 @@
 /*   By: hal-lawa <hal-lawa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 12:12:50 by hal-lawa          #+#    #+#             */
-/*   Updated: 2025/12/18 14:09:17 by hal-lawa         ###   ########.fr       */
+/*   Updated: 2025/12/21 10:45:07 by hal-lawa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,18 @@ void	free_map(t_map *map)
 	{
 		while ((map->map)[i])
 		{
-			free((map->map)[i]);
+			safe_free((void **)&(map->map)[i]);
 			i++;
 		}
-		free(map->map);
+		safe_free((void **)&(map->map));
 	}
 	if (map->floor)
-		free(map->floor);
+		safe_free((void **)&(map->floor));
 	if (map->wall)
-		free(map->wall);
+		safe_free((void **)&(map->wall));
 	if (map->player_door)
-		free(map->player_door);
-	free(map);
+		safe_free((void **)&(map->player_door));
+	safe_free((void **)&map);
 }
 
 static int	return_error(char *msg, int code, t_map *map)
@@ -108,18 +108,22 @@ int	main(int argc, char **argv)
 		return (return_error("The programm takes 1 parameter\n", 1, NULL));
 	if (validate_extention(argv[1]) == 0)
 		return (return_error("not a valid file extention, should be \'.ber\'\n",
-				1, NULL));
+				1,
+				NULL));
 	content = read_as_line(argv[1]);
 	if (!content)
 		return (return_error("Somthing went wrong\n", 2, NULL));
-	map = initialize_map(content);
+	map = initialize_map(&content);
 	if (!map)
+	{
+		if (content)
+			safe_free((void **)&content);
 		return (return_error("Somthing went wrong\n", 2, NULL));
+	}
 	if (validate_map(map) == 0)
 		return (return_error("Invalid map\n", 4, map));
 	if (validate_path(map) == 0)
 		return (return_error("no valid path in the map\n", 4, map));
-	start_game(map);
-	free_map(map);
-	return (0);
+	if (start_game(map) == 0)
+		return (return_error("Somthing went wrong\n", 2, map));
 }

@@ -6,7 +6,7 @@
 /*   By: hal-lawa <hal-lawa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 13:15:08 by hal-lawa          #+#    #+#             */
-/*   Updated: 2025/12/18 13:18:48 by hal-lawa         ###   ########.fr       */
+/*   Updated: 2025/12/21 10:05:12 by hal-lawa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ void	free_grid(char **map)
 		return ;
 	while (map[i])
 	{
-		free(map[i]);
+		safe_free((void **)&(map[i]));
 		i++;
 	}
-	free(map);
+	safe_free((void **)&map);
 }
 
 char	**cpy_map(t_map *map)
@@ -44,7 +44,10 @@ char	**cpy_map(t_map *map)
 	{
 		cpy[i] = ft_strdup(map->map[i]);
 		if (!cpy[i])
+		{
 			free_grid(cpy);
+			return (NULL);
+		}
 		i++;
 	}
 	cpy[i] = NULL;

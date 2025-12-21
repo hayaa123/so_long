@@ -18,6 +18,7 @@ LIB =$(LIB_DIR)/so_long.a
 SRC = \
 map_validation.c main.c map_initialization.c read_as_line.c check_valid_path.c\
 game.c player_move.c rendering.c exit_game.c map_initialization_utils.c check_valid_path_utils.c\
+positions.c safe_free.c game_utils.c\
 
 LIBFT_SRC = \
 ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c ft_strlen.c \
@@ -57,6 +58,7 @@ $(LIBFT): $(LIBFT_OBJ)
 clean:
 	rm -f $(LIBFT_OBJ) $(OBJ) $(LIB)
 	rm -rf $(OBJ_DIR)
+	rm -rf $(LIB_DIR)
 	make clean -C $(LIBFT_DIR)
 	make clean -C $(MLX_DIR)
 

@@ -6,7 +6,7 @@
 /*   By: hal-lawa <hal-lawa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 20:26:07 by haya              #+#    #+#             */
-/*   Updated: 2025/12/18 13:24:20 by hal-lawa         ###   ########.fr       */
+/*   Updated: 2025/12/21 10:46:09 by hal-lawa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,11 @@ typedef struct s_vars
 
 char				*read_as_line(char *filename);
 int					validate_map(t_map *map);
-t_map				*initialize_map(char *content);
+t_map				*initialize_map(char **content);
 int					validate_path(t_map *map);
 void				helper_print(char **grid);
 void				free_map(t_map *map);
-void				start_game(t_map *map);
+int					start_game(t_map *map);
 void				move_up(t_map *map);
 void				move_down(t_map *map);
 void				move_right(t_map *map);
@@ -97,5 +97,14 @@ int					calc_height(char *content);
 int					calc_width(char *content);
 char				**cpy_map(t_map *map);
 void				free_grid(char **map);
+void				set_player_position(t_player *player, char **map);
+void				set_collectable_count(t_collectables *collectables,
+						char **map);
+void				set_exit_position(t_exit *exit, char **map);
+void				safe_free(void **p);
+void				initialize_game_object(t_map *map);
+t_img				*empty_img(void);
+int					check_mallocked(t_map *map);
+int					check_valid_game_elements(t_vars *vars);
 
 #endif

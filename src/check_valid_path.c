@@ -6,7 +6,7 @@
 /*   By: hal-lawa <hal-lawa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 18:34:14 by haya              #+#    #+#             */
-/*   Updated: 2025/12/18 13:15:02 by hal-lawa         ###   ########.fr       */
+/*   Updated: 2025/12/21 10:02:06 by hal-lawa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ int	validate_path(t_map *map)
 	int		*start_coord;
 
 	grid = cpy_map(map);
+	if (!grid)
+		return (0);
 	visited = 'V';
 	start_coord = get_start_coord(grid);
 	dfs(grid, start_coord[0], start_coord[1], visited);
