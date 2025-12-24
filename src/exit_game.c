@@ -6,7 +6,7 @@
 /*   By: hal-lawa <hal-lawa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 11:51:46 by hal-lawa          #+#    #+#             */
-/*   Updated: 2025/12/18 13:20:46 by hal-lawa         ###   ########.fr       */
+/*   Updated: 2025/12/24 09:59:32 by hal-lawa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ static void	destroy_images(void *mlx, t_map *map)
 int	exit_game(t_vars *vars)
 {
 	destroy_images(vars->mlx, vars->map);
-	mlx_destroy_window(vars->mlx, vars->win);
+	if (vars->win)
+		mlx_destroy_window(vars->mlx, vars->win);
 	free_map(vars->map);
 	mlx_destroy_display(vars->mlx);
 	free(vars->mlx);
